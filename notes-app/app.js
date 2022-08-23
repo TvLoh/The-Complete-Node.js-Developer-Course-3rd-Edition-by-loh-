@@ -13,3 +13,5 @@ const information = chalk.bold.cyanBright.bgWhite
 console.log(msg)
 console.log(information(validator.isEmail('fips.froelich@gmail.com')))
 console.log(error(validator.isURL('https://www.nope.de')))
+console.log(process.argv[2]);
+console.log(process.argv[3]);

@@ -41,6 +41,7 @@ console.log(data.author) */
 
 
 // Task
+console.log(fs.readFileSync('1-jsonTask.json'));
 const dataTask = JSON.parse(fs.readFileSync('1-jsonTask.json').toString())
 dataTask.name = 'newAndrew'
 dataTask.age = 37

@@ -4,7 +4,7 @@
 // end nodemon: strg + c
 const validator = require('validator')
 const chalk = require('chalk')
-const getNotes = require('./notes.js')
+const notes = require('./notes.js')
 const yargs = require('yargs')
 
 // Customize yargs version
@@ -27,7 +27,7 @@ yargs.command({
     }
   },
   handler: function (argv) {
-    console.log('Title: ' + argv.title + '; ', 'Body: ' + argv.body);
+    notes.addNote(argv.title, argv.body)
   }
 })
 

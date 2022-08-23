@@ -1,3 +1,7 @@
+// start app open terminal
+// enter: node app.js
+// or: nodemon app.js
+// end nodemon: strg + c
 const validator = require('validator')
 const chalk = require('chalk')
 const getNotes = require('./notes.js')

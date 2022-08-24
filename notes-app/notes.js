@@ -1,9 +1,9 @@
 const fs = require('fs')
 const chalk = require('chalk')
 
-const AddNote = function (title, body) {
+const AddNote = (title, body) => {
   const notes = loadNotes()
-  const duplicateNotes = notes.filter(function (note) {
+  const duplicateNotes = notes.filter((note) => {
     return note.title === title
   })
 
@@ -13,40 +13,33 @@ const AddNote = function (title, body) {
       body: body,
     })
     saveNotes(notes)
-    logMessage('success', 'Title is added successfully!')
+    logMessage(logType.success.type, 'Title is added successfully!')
   } else {
-    logMessage('error', 'Title already exists!')
+    logMessage(logType.error.type, 'Title already exists!')
   }
 }
 
-const RemoveNote = function (title) {
+const RemoveNote = (title) => {
   const notes = loadNotes()
-  const removeNote = notes.filter(function (note) {
+  const removeNote = notes.filter((note) => {
     return note.title !== title
   })
   if (notes.length !== removeNote.length) {
     saveNotes(removeNote)
-    logMessage('success', 'Title is removed successfully!')
+    logMessage(logType.success.type, 'Title is removed successfully!')
   } else {
-    logMessage('error', 'No Title to remove.')
+    logMessage(logType.error.type, 'No Title to remove.')
   }
 }
 
-const ListNodes = function () {
-  console.log('listNode');
-}
+const ListNodes = () => console.log('listNode')
 
-const ReadNode = function () {
-  console.log('readNode');
-}
-
+const ReadNode = () => console.log('readNode')
 
 //-------------------------Help functions----------------------
-const saveNotes = function (notes) {
-  fs.writeFileSync('notes.json', JSON.stringify(notes))
-}
+const saveNotes = (notes) => fs.writeFileSync('notes.json', JSON.stringify(notes))
 
-const loadNotes = function () {
+const loadNotes = () => {
   try {
     return JSON.parse(fs.readFileSync('notes.json').toString())
   } catch (err) {
@@ -54,22 +47,41 @@ const loadNotes = function () {
   }
 }
 
-const logMessage = function (type, message) {
+const logMessage = (type, message) => {
   switch (type) {
-    case 'success':
-      console.log(chalk.green.bold(message));
+    case logType.success.type:
+      console.log(logType.success.design(message));
       break
-    case 'info':
-      console.log(chalk.magenta.bold(message));
+    case logType.info.type:
+      console.log(logType.info.design(message));
       break;
-    case 'warning':
-      console.log(chalk.yellow.bold(message));
+    case logType.warning.type:
+      console.log(logType.warning.design(message));
       break;
-    case 'error':
-      console.log(chalk.red.bold(message));
+    case logType.error.type:
+      console.log(logType.error.design(message));
       break;
     default:
-      console.log(chalk.red.bold('system error: please conect the IT support'));
+      console.log(logType.error.design('system error: please conect the IT support'));
+  }
+}
+
+const logType = {
+  success: {
+    type: 'success',
+    design: chalk.green.bold
+  },
+  info: {
+    type: 'info',
+    design:chalk.bold.hex('#DEADED').italic
+  },
+  warning: {
+    type: 'warning',
+    design: chalk.green.bold
+  },
+  error: {
+    type: 'error',
+    design: chalk.bold.red.italic
   }
 }
 

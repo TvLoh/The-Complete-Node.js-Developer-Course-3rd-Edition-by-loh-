@@ -32,7 +32,37 @@ const RemoveNote = (title) => {
   }
 }
 
-const ListNodes = () => console.log('listNode')
+const ListNodes = () => {
+  let i = 0
+  let sortedNotes = loadNotes()
+  const notes = loadNotes()
+  sortedNotes.sort(function (a, b) {
+    let x = a.title.toLowerCase();
+    let y = b.title.toLowerCase();
+    if (x < y) { return -1; }
+    if (x > y) { return 1; }
+    return 0;
+  });
+  if (notes.length > 0) {
+    console.log(chalk.bold.hex('#92c353').italic.inverse('List of Title: '));
+    notes.forEach((node) => {
+      i++;
+      console.log(i + ': ' + node.title)
+    })
+  } else {
+    logMessage(logType.error.type, 'No Title to list!')
+  }
+
+  if (sortedNotes.length > 0) {
+    console.log(chalk.bold.hex('#92c353').italic.inverse('List of sorted Title: '));
+    sortedNotes.forEach((node) => {
+      i++;
+      console.log(i + ': ' + node.title)
+    })
+  } else {
+    logMessage(logType.error.type, 'No sorted Title to list!')
+  }
+}
 
 const ReadNode = () => console.log('readNode')
 
@@ -41,6 +71,7 @@ const saveNotes = (notes) => fs.writeFileSync('notes.json', JSON.stringify(notes
 
 const loadNotes = () => {
   try {
+    
     return JSON.parse(fs.readFileSync('notes.json').toString())
   } catch (err) {
     return []
@@ -73,7 +104,7 @@ const logType = {
   },
   info: {
     type: 'info',
-    design:chalk.bold.hex('#DEADED').italic
+    design: chalk.bold.hex('#DEADED').italic
   },
   warning: {
     type: 'warning',

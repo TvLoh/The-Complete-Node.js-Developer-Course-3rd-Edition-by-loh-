@@ -50,7 +50,7 @@ yargs.command({
 // Create list command
 yargs.command({
   command: 'list',
-  describe: 'Show list',
+  describe: 'Show list of available Titles',
   handler: () => {
     notes.listNodes()
   }
@@ -59,9 +59,16 @@ yargs.command({
 // Create read commands
 yargs.command({
   command: 'read',
-  describe: 'read  note',
-  handler: () => {
-    notes.readNode()
+  describe: 'Read Title if it is av ailable',
+  builder: {
+    title: {
+      describe: 'Title is necessary',
+      demandOption: true,
+      type: 'string',
+    },
+  },
+  handler: (argv) => {
+    notes.readNode(argv.title)
   }
 })
 

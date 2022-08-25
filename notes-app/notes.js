@@ -3,11 +3,11 @@ const chalk = require('chalk')
 
 const AddNote = (title, body) => {
   const notes = loadNotes()
-  const duplicateNotes = notes.filter((note) => {
+  const duplicateNote = notes.find((note) => {
     return note.title === title
   })
 
-  if (duplicateNotes.length === 0) {
+  if (!duplicateNote) {
     notes.push({
       title: title,
       body: body,
@@ -47,7 +47,7 @@ const ListNodes = () => {
     console.log(chalk.bold.hex('#92c353').italic.inverse('List of Title: '));
     notes.forEach((node) => {
       i++;
-      console.log(i + ': ' + node.title)
+      console.log(i + ': ' + node.title + ' - ' + node.body)
     })
   } else {
     logMessage(logType.error.type, 'No Title to list!')
@@ -57,21 +57,29 @@ const ListNodes = () => {
     console.log(chalk.bold.hex('#92c353').italic.inverse('List of sorted Title: '));
     sortedNotes.forEach((node) => {
       i++;
-      console.log(i + ': ' + node.title)
+      console.log(i + ': ' + node.title + ' - ' + node.body)
     })
   } else {
     logMessage(logType.error.type, 'No sorted Title to list!')
   }
 }
 
-const ReadNode = () => console.log('readNode')
+const ReadNote = (title) => {
+  const notes = loadNotes()
+  const findNote = notes.find((note) => note.title === title)
+  if (findNote) {
+    logMessage(logType.info.type, findNote.title)
+    logMessage(logType.info.type, findNote.body)
+  } else {
+    logMessage(logType.error.type, 'No title found to read!')
+  }
+}
 
 //-------------------------Help functions----------------------
 const saveNotes = (notes) => fs.writeFileSync('notes.json', JSON.stringify(notes))
 
 const loadNotes = () => {
   try {
-    
     return JSON.parse(fs.readFileSync('notes.json').toString())
   } catch (err) {
     return []
@@ -120,5 +128,5 @@ module.exports = {
   addNote: AddNote,
   removeNote: RemoveNote,
   listNodes: ListNodes,
-  readNode: ReadNode
+  readNode: ReadNote
 }

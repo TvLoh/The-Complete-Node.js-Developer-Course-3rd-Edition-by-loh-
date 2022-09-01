@@ -10,16 +10,18 @@ const getWetherData = (address, callback) => {
     url: urlWeather,
     json: true
   },
-  (error, response) => {
+  (error, request = {}) => {
+    const { body } = request
     if (error) {
       callback(error, undefined)
-    } else if (response.body.error) {
+    } else if (body.error) {
       callback(error, undefined) 
     } else {
+      const {temperature, feelslike} = body.current
       callback(undefined, {
-        tempReal: response.body.current.temperature,
-        tempFeel: response.body.current.feelslike,
-        location: response.body.location.name,
+        tempReal: temperature,
+        tempFeel: feelslike,
+        location: body.location.name,
       })
     }
   })

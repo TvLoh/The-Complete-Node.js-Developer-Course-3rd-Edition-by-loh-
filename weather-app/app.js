@@ -12,22 +12,19 @@ setTimeout(() => { console.log('timout 0sec.'); }, 0)
 if (!location) {
   console.log('Please enter a Location!!!');
 } else {
-  geoService.getGeoLocation(location, (error, dataLocation) => {
+  geoService.getGeoLocation(location, (error, {longitude, latitude, location} = {}) => {
     if (error) {
       return console.log(error)
     } else {
-      console.log(dataLocation.longitude)
-      console.log(dataLocation.latitude)
-      console.log(dataLocation.location)
-      const location = dataLocation.location.replace(/\s/g, '')
+      console.log(location + ': ', longitude, latitude)
+      console.log()
+      const locationReplaced = location.replace(/\s/g, '')
 
-      weatherService.getWetherData(location, (error, dataWeather) => {
+      weatherService.getWetherData(locationReplaced, (error, {tempReal, tempFeel, location} = {}) => {
         if (error) {
           return console.log(error)
         } else {
-          console.log(dataWeather.tempReal)
-          console.log(dataWeather.tempFeel)
-          console.log(dataWeather.location)
+          console.log('Temp in ' + location + ' is ' + tempReal + '°C and feels like ' + tempFeel + '°C')
         }
       })
     }

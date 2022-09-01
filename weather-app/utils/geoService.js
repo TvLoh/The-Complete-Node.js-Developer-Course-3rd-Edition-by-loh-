@@ -8,19 +8,20 @@ const getGeoLocation = (address, callback) => {
     url: urlLocation,
     json: true,
   },
-    (error, response) => {
+    (error, request) => {
+      const { body } = request
       if (error) {
         callback(error.message, undefined)
-      } else if (response.body.error) {
-        callback(response.body.error.info, undefined)
-        console.log('error location local: ', response.body.error.info);
-      } else if (response.body.features.length === 0) {
+      } else if (body.error) {
+        callback(body.error.info, undefined)
+        console.log('error location local: ', body.error.info);
+      } else if (body.features.length === 0) {
         callback('Unable to find Location. Try another search.', undefined)
       } else {
         callback(undefined, {
-          longitude: response.body.features[0].center[1],
-          latitude: response.body.features[0].center[0],
-          location: response.body.features[0].place_name,
+          longitude: body.features[0].center[1],
+          latitude: body.features[0].center[0],
+          location: body.features[0].place_name,
         })
       }
     }

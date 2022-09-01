@@ -26,5 +26,5 @@ const getWetherData = (address, callback) => {
 }
 
 module.exports = {
-  getWetherData: getWetherData
+  getWetherData,
 }

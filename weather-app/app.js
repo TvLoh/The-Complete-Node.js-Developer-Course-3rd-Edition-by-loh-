@@ -3,22 +3,34 @@ const weatherService = require('./utils/weatherService.js')
 
 const location = 'Ostfildern'
 
-geoService.getGeoLocation(location, (error, data) => {
+console.log('Start main')
+
+setTimeout(() => {console.log('timout 0.5sec.');}, 500)
+
+setTimeout(() => {console.log('timout 0sec.');}, 0)
+
+geoService.getGeoLocation(location, (error, dataLocation) => {
   if (error) {
-    console.log(error)
+    return console.log(error)
   } else {
-    console.log(data.longitude)
-    console.log(data.latitude)
-    console.log(data.location)
+    console.log(dataLocation.longitude)
+    console.log(dataLocation.latitude)
+    console.log(dataLocation.location)
+    const location = dataLocation.location.replace(/\s/g, '')
+
+    weatherService.getWetherData(location, (error, dataWeather) => {
+      if (error) {
+        return console.log(error)
+      } else {
+        console.log(dataWeather.tempReal)
+        console.log(dataWeather.tempFeel)
+        console.log(dataWeather.location)
+      }
+    })
   }
 }
 )
 
-weatherService.getWetherData(location, (error, data) => {
-  if (error) {
-    console.log(error)
-  } else {
-    console.log(data.tempReal)
-    console.log(data.tempFeel)
-  }
-})
+setTimeout(() => {console.log('timout 2sec.');}, 2000)
+
+console.log('Stop main')

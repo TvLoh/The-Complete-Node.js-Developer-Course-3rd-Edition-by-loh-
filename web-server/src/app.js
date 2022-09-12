@@ -4,6 +4,9 @@ const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
 
+const geoService = require('./utils/geoService.js')
+const weatherService = require('./utils/weatherService.js')
+
 const app = express()
 
 // Defined paths for Express config
@@ -46,7 +49,56 @@ app.get('/help', (req, res) => {
 
 
 app.get('/weather', (req, res) => {
-  res.send('Hier könnte Ihr Wetter angezeigt werden.')
+  if (!req.query.address) {
+    return res.send({
+      error: 'An Address must be providet!'
+    })
+  } else {
+    geoService.getGeoLocation(req.query.address, (error, {longitude, latitude, location} = {}) => {
+      if (error) {
+        console.log('getGeoLocation', error);
+        return res.send({
+          error: 'Can not find any Location!'
+        })
+      } else {
+        console.log(location + ': ', longitude, latitude)
+        const locationReplaced = location.replace(/\s/g, '')
+  
+        weatherService.getWetherData(locationReplaced, (error, {tempReal, tempFeel, location} = {}) => {
+          if (error) {
+            console.log('getWetherData', error);
+            return res.send({
+              error: error
+            })
+          } else {
+            console.log('Temp in ' + location + ' is ' + tempReal + '°C and feels like ' + tempFeel + '°C');
+            return res.send({
+              location: location,
+              forecast: 'Temp in ' + location + ' is ' + tempReal + '°C and feels like ' + tempFeel + '°C',
+              weather: {
+                tmpReal: tempReal,
+                tempFeel: tempFeel
+              }
+            })
+          }
+        })
+      }
+    }
+    )
+  }
+})
+
+app.get('/products', (req, res) => {
+  if (!req.query.search) {
+    return res.send({
+      error: 'You must provide a search tereme!'
+    })
+  } else {
+    return res.send({
+      products: [],
+    })
+  }
+  console.log(req.query);
 })
 
 app.get('/help/*', (req, res) => {

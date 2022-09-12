@@ -3,11 +3,17 @@ const express = require('express')
 const app = express()
 
 app.get('', (req, res) => {
-  res.send('Hello Express')
+  res.send('<h1>Weather</h1>')
 })
 
 app.get('/help', (req, res) => {
-  res.send('Help page')
+  res.send([{ 
+    user: 'name',
+    age: 28
+  }, { 
+    user: 'newName',
+    age: 29
+  }])
 })
 
 app.get('/abought', (req, res) => {

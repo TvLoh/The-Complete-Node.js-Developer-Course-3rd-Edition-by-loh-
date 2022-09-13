@@ -1,0 +1,23 @@
+{
+  "name": "The-Complete-Node.js-Developer-Course-3rd-Edition-by-loh-",
+  "version": "1.0.0",
+  "description": "This is the solution of the node JS course from \"Andrew Mead\" and \"Rob Percival\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TvLoh/The-Complete-Node.js-Developer-Course-3rd-Edition-by-loh-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TvLoh/The-Complete-Node.js-Developer-Course-3rd-Edition-by-loh-/issues"
+  },
+  "homepage": "https://github.com/TvLoh/The-Complete-Node.js-Developer-Course-3rd-Edition-by-loh-#readme",
+  "dependencies": {
+    "mongodb": "^4.9.1"
+  }
+}

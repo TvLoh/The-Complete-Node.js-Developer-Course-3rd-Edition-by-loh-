@@ -1,5 +1,5 @@
 console.log('client side java script is loaded')
-const url = 'http://api.weatherstack.com/current?access_key=9c853bd9723aa33ef1e1edd58b6ec3fc&query='
+const url = '/weather?address='
 
 
 const getWeatherData = (searchURL) => {
@@ -10,7 +10,7 @@ const getWeatherData = (searchURL) => {
         showError.textContent = data.error.info;
       } else {
         console.log(data);
-        showForcarst.textContent = 'Temperature in ' + data.location.name + ' is about ' + data.current.temperature + '°C and feels like ' + data.current.feelslike + '°C';
+        showForcarst.textContent = data.forecast;
       }
     })
   })

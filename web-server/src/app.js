@@ -8,6 +8,7 @@ const geoService = require('./utils/geoService.js')
 const weatherService = require('./utils/weatherService.js')
 
 const app = express()
+const port = process.env.PORT || 3000
 
 // Defined paths for Express config
 const publicDiractoryPath = path.join(__dirname, '../public')
@@ -25,7 +26,7 @@ app.use(express.static(publicDiractoryPath))
 app.get('', (req, res) => {
   res.render('index', {
     pageTitle: 'Weather App', 
-    userName: 'yourName',
+    userName: 'Me',
     creatorName: 'Creators Name'
   })
 }) 
@@ -115,6 +116,6 @@ app.get('*', (req, res) => {
   })
 })
 
-app.listen(3000, () => {
-  console.log('Server is up on Port 3000')
+app.listen(port, () => {
+  console.log('Server is up on Port ' + port)
 })

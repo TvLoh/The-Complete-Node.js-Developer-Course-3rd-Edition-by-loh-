@@ -6,6 +6,7 @@ const connectionURL = 'mongodb://127.0.0.1:27017'
 const databaseName = 'task-manager'
 
 const id = new ObjectId()
+console.log(id)
 
 MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) => {
   if (error) {
@@ -13,26 +14,32 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
   }
 
   const db = client.db(databaseName)
-/* 
-  db.collection('users').findOne({_id: new ObjectId('6329a24b5986f93f26ff54ca')}, (err, collection) =>{
-    if (err) {
-      return console.log('error');
-    }
-    console.log(collection);
-    console.log(collection._id.getTimestamp());
-  }) */
 
-/*   db.collection('users').find({age: 27}).toArray((err, users) => {
-    if (err) {
-      console.log(err);
+  db.collection('users').updateOne({
+    _id: new ObjectId('6329cabcabcd2fb3a58d2a1b')
+  }, {
+    $set: {
+      name: 'Mike'
+    },
+    $inc: {
+      age: 1
     }
-    console.log(users);
-  }) */
-
-  db.collection('users').countDocuments({age: 27}, (err, users) => {
-    if (err) {
-      console.log(err);
-    }
-    console.log(users);
+  }).then((result) => {
+    console.log('UpdateSuccsessfull: ', result);
+  }).catch((error) => {
+    console.log('ERROR: ', error);
   })
+
+/*   db.collection('users').insertOne({
+  _id: id,
+  name: 'Valerian',
+  age: 27,
+}) */
+
+db.collection('users').countDocuments({ age: 27 }, (err, users) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log(users);
+})
 })

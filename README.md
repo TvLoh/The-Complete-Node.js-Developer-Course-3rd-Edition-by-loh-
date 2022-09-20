@@ -6,4 +6,6 @@ Project init:
 npm init -y
 
 start mongodb:
-path->  /users/von-loh/mongodb/bin/mongod.exe --dbpath=/users/von-loh/mongodb-data
+path->  /users/von-loh/mongodb/bin/
+
+cd ../../users/von-loh/mongodb/bin/mongod.exe --dbpath=/users/von-loh/mongodb-data

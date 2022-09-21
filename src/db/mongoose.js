@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const url = 'mongodb://127.0.0.1:27017/task-manager-api';
 
@@ -7,40 +8,74 @@ mongoose.connect(url);
 const User = mongoose.model('User', {
   name: {
     type: String,
+    required: true,
+    trim: true,
+  },
+  email: {
+    type: String,
+    trim: true,
+    lowercase: true,
+    required: true,
+    validate(value) {
+      if (!validator.isEmail(value)) {
+        throw new Error('Email validation ERROR!')
+      }
+    }
   },
   age: {
     type: Number,
-
+    default: 0,
+    validate(value) {
+      if (value < 0) {
+        throw new Error('Invalid age value: no neg age alowed!')
+      }
+    }
   },
-})
-
-const Task = mongoose.model('Tasks', {
-  description: {
+  password: {
     type: String,
-  },
-  complete: {
-    type: Boolean,
+    trim:true,
+    required: true,
+    minlength: 6,
+    validate(value){
+      if (value.toLowerCase().includes('passwort')) {
+        throw new Error('ERROR! Passwort not allowed in passwort!')
+      }
+    }
+
   }
 })
 
-const newTask = new Task({
+const me = new User({
+  name: '  Thomas Loh',
+  email: '   THOMAS@provider.de',
+  password: 'This is the new Passkey!'
+})
+
+me.save().then(() => {
+  console.log(me);
+}).catch((err) => {
+  console.log('ERROR! ', err);
+})
+
+const Task = mongoose.model('Task', {
+  description: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  completed: {
+    type: Boolean,
+    default: false,
+  }
+})
+
+/* const newTask = new Task({
   description: 'This task is finished!',
-  complete: true
+  completed: true
 })
 
 newTask.save().then(() => {
   console.log(newTask);
 }).catch((err) =>{
   console.log('ERROR! ', err);
-})
-
-/* const me = new User({
-  name: 'Thomas',
-  age: 30
-})
-
-me.save().then(() => {
-    console.log(me);
-  }).catch((err) => {
-    console.log('ERROR! ', err);
-  }) */
+}) */

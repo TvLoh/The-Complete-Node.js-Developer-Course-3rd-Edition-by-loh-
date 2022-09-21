@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/TvLoh/The-Complete-Node.js-Developer-Course-3rd-Edition-by-loh-#readme",
   "dependencies": {
-    "mongodb": "^4.9.1"
+    "mongodb": "^4.9.1",
+    "mongoose": "^6.6.1"
   }
 }

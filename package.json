@@ -4,7 +4,8 @@
   "description": "This is the solution of the node JS course from \"Andrew Mead\" and \"Rob Percival\"",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +19,12 @@
   },
   "homepage": "https://github.com/TvLoh/The-Complete-Node.js-Developer-Course-3rd-Edition-by-loh-#readme",
   "dependencies": {
+    "express": "^4.18.1",
     "mongodb": "^4.9.1",
     "mongoose": "^6.6.1",
     "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }

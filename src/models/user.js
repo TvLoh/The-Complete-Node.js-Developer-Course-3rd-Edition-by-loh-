@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const bcrypt = require('bcrypt')
 
-const User = mongoose.model('User', {
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -10,6 +11,7 @@ const User = mongoose.model('User', {
   email: {
     type: String,
     trim: true,
+    unique: true,
     lowercase: true,
     required: true,
     validate(value) {
@@ -29,16 +31,43 @@ const User = mongoose.model('User', {
   },
   password: {
     type: String,
-    trim:true,
+    trim: true,
     required: true,
     minlength: 6,
-    validate(value){
+    validate(value) {
       if (value.toLowerCase().includes('passwort')) {
         throw new Error('ERROR! Passwort not allowed in passwort!')
       }
     }
-
   }
 })
+
+userSchema.statics.findByCredentiels = async (email, password) => {
+  const user = await User.findOne({ email })
+  
+  if (!user) {
+    throw new Error('Unable to Login')
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password)
+
+  if (!isMatch) {
+    throw new Error('Unable to Login')
+  }
+
+  return user
+}
+
+// Hash the plane text passwort bevore saving 
+userSchema.pre('save', async function (next) {
+  const user = this
+
+  if (user.isModified('password')) {
+    user.password = await bcrypt.hash(user.password, 8)
+  }
+  next()
+})
+
+const User = mongoose.model('User', userSchema)
 
 module.exports = User

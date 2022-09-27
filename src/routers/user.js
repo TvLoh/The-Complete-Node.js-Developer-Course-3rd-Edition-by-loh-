@@ -2,14 +2,13 @@ require('../db/mongoose')
 
 const express = require('express')
 const User = require('../models/user')
+const auth = require('../middleware/auth')
 const router = new express.Router()
-
 
 router.post('/users', async (req, res) => {
   const user = new User(req.body)
 
   try {
-
     await user.save()
     const token = await user.generateAuthToken()
     res.status(201).send({user, token})
@@ -28,13 +27,8 @@ router.post('/users/login', async (req, res) => {
   }
 })
 
-router.get('/users', async (req, res) => {
-  try {
-    const users = await User.find({})
-    res.status(302).send(users)
-  } catch (err) {
-    res.status(500).send()
-  }
+router.get('/users/me', auth, async (req, res) => {
+  res.send(req.user)
 })
 
 router.patch('/user/:id', async (req, res) => {

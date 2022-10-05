@@ -1,8 +1,9 @@
-require('./db/mongoose')
+const mongoose = require('mongoose')
 
 const express = require('express')
 const bcrypt = require('bcrypt')
 const Task = require('./models/task')
+const User = require('./models/user')
 const routerUser = require('./routers/user')
 const routerTasks = require('./routers/tasks')
 const jwt = require('jsonwebtoken')
@@ -18,12 +19,15 @@ app.listen(port, () => {
   console.log('Server is up on Port: ' + port)
 })
 
-/* const myFunction = async () => {
-  const token = jwt.sign({ _id: 'abc123' }, 'thisismynewcourse', { expiresIn: '1 days' })
-  console.log(token);
+const main = async () => {
+/*   const task = await Task.findById('633d7cad554c8ac1e3c4d533')
+  // await task.populate('owner').execPopulate()
+  await Task.populate('owner')
+  console.log(task.owner) */
 
-  const data = jwt.verify(token, 'thisismynewcourse')
-  console.log(data);
+  const user = await User.findById('633d7b64f7ff619a589ccc25')
+  await user.populate('tasks')
+  console.log(user.tasks)
 }
 
-myFunction() */
+// main()
